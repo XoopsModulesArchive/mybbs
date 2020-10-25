@@ -1,0 +1,108 @@
+<!--  mybbs.html -->
+<style type="text/css">
+<!--
+.title { font-weight: bold; font-size: 120% }
+.posttitle { font-size: 120%; margin: 5px; line-height: 200%}
+.poster{ margin-left: 20px; }
+.postdate{ margin-left: 20px; }
+.postmessage { margin: 10px; }
+.res_link{ margin-left: 20px; }
+.edit_link{ margin-left: 20px; }
+.del_link{ }
+.res{ margin-left: 50px; border 100px dotted gray; }
+.article { border: 1px solid #CCCCCC; padding: 10px; margin: 5px; }
+.article_res{ border-top: 1px solid #CCCCCC; padding: 10px; }
+
+-->
+</style>
+<br>
+<!-- BBS LIST -->
+<{if sizeof($bbs_list) > 1 }>
+<{foreach item=i from=$bbs_list}> <{if $i.bbs_id == $form_bbs_id }> <b><{$i.bbs_name}></b>
+ <{else}> <a href="./index.php?bbs_id=<{$i.bbs_id}>"><{$i.bbs_name}></a> 
+ <{/if}> <{/foreach}>
+<br>
+<br>
+<{/if}>
+<!-- / BBS LIST -->
+<div class=title><{$bbs_name}></div>
+<br>
+<!-- <{if $bbs_info.bbs_contents}><{$bbs_info.bbs_contents}><br><{/if}> -->
+<{if $bbs_info.bbs_note}><br><{$bbs_info.bbs_note}><{/if}>
+<!-- POST FORM -->
+<{include file="db:mybbs_form.html"}> 
+<!-- /POST FORM -->
+<!-- ====================================================================== -->
+<{ foreach item=parent from=$messages }> 
+<!-- PARENTS -->
+<div class="article">
+<a name="<{$parent.post_id}>"></a>
+<span class=posttitle><{$parent.title}></span><br>
+<span class=poster><{$smarty.const._MD_MYBBS_POSTER}> :
+  <{if $parent.users_uid }>
+  <a href="../../userinfo.php?uid=<{$parent.uid}>"><{$parent.uname}></a>
+  <{else}>
+  <{$parent.uname}>
+  <{/if}>
+</span>
+<span class=postdate>
+  <{$smarty.const._MD_MYBBS_POSTDATE}> :<{$parent.post_time}>
+</span>
+<!-- Res Link -->
+<{if $post_allowed }>
+<span class="res_link">[<a href="res.php?bbs_id=<{$parent.bbs_id}>&parent_id=<{$parent.post_id}>&root_id=<{$parent.post_id}>"><{$smarty.const._MD_MYBBS_RES}></a>]</span>
+<{/if}>
+<!-- Edit & Del Link -->
+<{if ($parent.uid == $uid && $uid != 0) || $is_admin }>
+<span class="edit_link">[<a href="edit.php?bbs_id=<{$form_bbs_id}>&post_id=<{$parent.post_id}>&mode=form"><{$smarty.const._MD_MYBBS_EDIT}></a></span>|
+<span class="del_link"><a href="del.php?bbs_id=<{$form_bbs_id}>&post_id=<{$parent.post_id}>&mode=check"><{$smarty.const._MD_MYBBS_DELETE}></a>]</span>
+<{/if}>
+<div class="postmessage">
+<table border=0>
+  <tr>
+	<td width=40 valign="top"><img src="../../uploads/<{$parent.user_avatar}>" class="avatara"></td>
+	<td valign="top"><{$parent.message}></td>
+  </tr>
+</table>
+</div>
+<!-- // PARENTS -->
+
+
+<!-- CHILDS -->
+<{ if sizeof($parent.res) > 0 }>
+<div class="res">
+<{ foreach item=res from=$parent.res }>
+<div class="article_res">
+<a name="<{$res.post_id}>"></a>
+<span class="posttitle"><{$res.title}></span><br>
+<span class="poster"> <{$smarty.const._MD_MYBBS_POSTER}>:
+  <{if $parent.users_uid }>
+  <a href="../../userinfo.php?uid=<{$res.uid}>"><{$res.uname}></a>
+  <{else}>
+  <{$res.uname}>
+  <{/if}>
+</span>
+<span class="postdate"><{$smarty.const._MD_MYBBS_POSTDATE}> :<{$res.post_time}></span>
+<!-- Edit & Del Link -->
+<{if ($res.uid == $uid && $uid != 0) || $is_admin }> 
+<span class=edit_link>[<a href="edit.php?bbs_id=<{$form_bbs_id}>&post_id=<{$res.post_id}>&mode=form"><{$smarty.const._MD_MYBBS_EDIT}></a></span>|
+<span class=del_link><a href="del.php?bbs_id=<{$form_bbs_id}>&post_id=<{$res.post_id}>&mode=check"><{$smarty.const._MD_MYBBS_DELETE}></a>]</span>
+<{/if}>
+<div class="postmessage">
+<table border=0>
+  <tr>
+	<td width=40 valign=top><img src="../../uploads/<{$res.user_avatar}>"> </td>
+	<td valign=top><{$res.message}></td>
+  </tr>
+</table>
+</div>
+</div>
+<{/foreach}>
+</div>
+<{/if}> 
+<!-- //CHILDS -->
+</div>
+<{/foreach}> 
+<!-- ====================================================================== -->
+<blockquote> <{$page_link_html}> </blockquote>
+<!-- /mybbs.html -->

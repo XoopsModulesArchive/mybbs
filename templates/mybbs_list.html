@@ -1,0 +1,17 @@
+<br>
+<div class="title"><{$smarty.const._MD_MYBBS_BBS_LIST}></div>
+<br>
+
+<table class="outer" cellspacing="1" cellpadding="2">
+<tr>
+<th><{$smarty.const._MD_MYBBS_BBS_NAME}></th><th><{$smarty.const._MD_MYBBS_BBS_CONTENTS}></th>
+</tr>
+<{foreach name=parent item=i from=$bbs_list}>
+<tr class="<{cycle values="even,odd"}>">
+<td><a href="./index.php?bbs_id=<{$i.bbs_id}>"><{$i.bbs_name}></a></td><td><{$i.bbs_contents}></td>
+</tr>
+<{/foreach}>
+</table>
+<br>
+<br>
+

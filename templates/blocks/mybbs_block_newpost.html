@@ -1,0 +1,18 @@
+<table class="outer" cellspacing="1" cellpadding="2">
+<tr class="head">
+<th><{$smarty.const._MD_MYBBS_BBS_NAME}></th>
+<th><{$smarty.const._MD_MYBBS_TITLE}></th>
+<th><{$smarty.const._MD_MYBBS_POSTER}></th>
+<!--<th><{$smarty.const._MD_MYBBS_MESSAGE}></th>-->
+<th><{$smarty.const._MD_MYBBS_POST_TIME}></th>
+</tr>
+<{foreach item=row from=$block.messages}>
+<tr class="<{cycle values="even,odd"}>">
+<td><a href="<{$xoops_url}>/modules/mybbs/index.php?bbs_id=<{$row.bbs_id}>"><{$row.bbs_name|escape}></a></td>
+<td><a href="<{$xoops_url}>/modules/mybbs/index.php?bbs_id=<{$row.bbs_id}>#<{$row.post_id}>"><{$row.title|truncate:30}></a></td>
+<td><{$row.uname}></td>
+<!-- <td><{$row.message}></td> -->
+<td><{$row.post_time}></td>
+</tr>
+<{/foreach}>
+</table>

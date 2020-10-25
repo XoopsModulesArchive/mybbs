@@ -1,0 +1,73 @@
+<!-- =========== mybbs_form.html $Id: mybbs_form.html,v 1.1 2006/03/27 15:38:00 mikhail Exp $ ========== -->
+<script type="text/javascript">
+<!--
+function check(){
+  if(document.postform.message.value.length == 0){
+    alert('<{$smarty.const._MD_MYBBS_ERRMES_MESSAGE}>');
+    return false;
+  }
+  if(document.postform.title.value.length == 0){
+    alert('<{$smarty.const._MD_MYBBS_ERRMES_TITLE}>');
+    return false;
+  }
+<{if $xoops_userid == 0}>
+  if(document.postform.name.value.length == 0){
+    alert('<{$smarty.const._MD_MYBBS_ERRMES_NAME}>');
+    return false;
+  }
+<{/if}>
+  document.postform.submit();
+}
+//-->
+</script>
+
+<{if $post_allowed }>
+<form name=postform method="POST" action="<{$form_action}>">
+<input type="hidden" name="mode" value="<{$form_mode}>">
+<input type="hidden" name="parent_id" value="<{$form_parent}>">
+<input type="hidden" name="bbs_id" value="<{$form_bbs_id}>">
+<input type="hidden" name="root_id" value="<{$form_root_id}>">
+<input type="hidden" name="post_id" value="<{$form_post_id}>">
+<table class="outer" cellspacing="1" width="100%">
+
+<{if $xoops_userid == 0}>
+<tr>
+<td class="head">
+  <{$smarty.const._MD_MYBBS_POSTER}>
+</td>
+<td class="even">
+<input type=text name=name size=30 value="<{$form_poster}>"><br>
+</td>
+<{/if}>
+
+<tr>
+<td class="head">
+<{$smarty.const._MD_MYBBS_TITLE}>
+</td>
+<td class="even">
+<input type=text name=title size=50 value="<{$form_title}>"><br>
+</td>
+</tr>
+
+<tr>
+<td class="head">
+<{$smarty.const._MD_MYBBS_MESSAGE}>
+</td>
+<td class="even">
+<{$form_message_tarea}>
+</td>
+</tr>
+</table>
+<input type=button value="<{$form_submit}>" onClick="check();">
+<input type=reset value="<{$smarty.const._MD_MYBBS_RESET}>">
+</form>
+
+<{else}>
+
+<br>
+<{$smarty.const._MD_MYBBS_GUEST_POST_DENIED}>
+<br>
+<br>
+<{/if}>
+
+<!-- ========== //mybbs_form.html ========== -->
